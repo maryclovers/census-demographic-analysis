@@ -1,77 +1,43 @@
 # Census Demographic Analysis
 
-**MSc AI for Healthcare — Fundamentals of Data Science | University of Hull**
-**Grade: Distinction (89–91%)**
-
----
+MSc AI for Healthcare | University of Hull | Fundamentals of Data Science
 
 ## What this is
 
-A full demographic analysis of a UK census dataset — cleaning messy real-world data, running statistical tests, and pulling out insights about how this population compares to national UK averages.
+Took a messy UK census dataset and cleaned it, analysed it, and compared it against national averages. The whole point was figuring out what makes this population different from the rest of the UK, and whether those differences are actually significant or just noise.
 
-Built this as part of my MSc, but the skills here (handling missing data, imputation strategies, significance testing, visualisation) are exactly what you'd do on a clinical data pipeline before any ML model touches it. Garbage in, garbage out — this project is about making sure the data is actually trustworthy before you do anything with it.
+Real-world data is dirty. This project is about fixing that before you do anything useful with it.
 
----
+## What I built
 
-## What I actually did
+Started with missing values everywhere. Age had gaps so I used median imputation (not mean, because the distribution was skewed). Religion was categorical so mode made more sense there. Also caught things like negative ages, people listed as married under 18, kids assigned to adult occupation categories. Fixed or flagged each one with a reason.
 
-**Data Cleaning**
-- Found and fixed missing values in Age (median imputation) and Religion (mode imputation)
-- Flagged impossible ages (negative values, ages over 122) and replaced with median
-- Caught logical inconsistencies: people listed as married under 18, children in work categories — fixed or flagged each one with justification
-- Validated invalid religion entries against a known list, categorised outliers as "Other"
+Once the data was clean, ran the actual analysis. Age distribution, gender split, household sizes, occupation breakdown. Found the student population was way higher than expected, so dug into that.
 
-**Analysis**
-- Age distribution, gender split, marital status breakdown, religion distribution
-- Household size analysis (grouped by street + house number)
-- Occupation breakdown — identified unusually high student population
-- Estimated birth rate and death rate from cohort data
+Then compared everything against ONS national benchmarks. Used Z-tests for proportions (unemployment rate, student population) and T-tests for continuous variables (mean age, household size). Everything came back significant at p < 0.001.
 
-**UK Comparison + Stats Testing**
-- Compared town demographics against ONS/Census 2021 national benchmarks
-- Z-tests for unemployment rate and student population
-- T-tests for mean age and household size
-- All key differences statistically significant (p < 0.001)
+## What I found
 
-**Visualisations**
-- Age histogram, gender bar chart, marital status distribution
-- Age by marital status (boxplot), marital status by gender, age by gender
-- Religion distribution post-cleaning
+The town skews young. Unemployment is higher than the national rate. Student population is way above average. Households are bigger than the UK norm. Taken together it looks like a university town, which the occupation data backs up.
 
----
+## What I learned
 
-## Key findings
+Median imputation for skewed continuous data, mode for categorical. How to catch logical inconsistencies in a dataset, not just missing values. How to run and interpret Z-tests vs T-tests depending on what you're comparing. And honestly, how much time data cleaning actually takes compared to the analysis itself.
 
-- Population is significantly younger than UK average
-- Unemployment notably higher than national rate (statistically significant)
-- Student population far exceeds national average — education-focused community
-- Household sizes larger than UK norm
+The tricky part was the age validation. Just checking for nulls wasn't enough. Had to think about what ages are actually possible and what combinations of fields make no sense together.
 
----
+## Tech
 
-## Tech stack
-
-```
-Python 3 | pandas | matplotlib | seaborn | scipy
-```
-
----
+Python, pandas, matplotlib, seaborn, scipy
 
 ## Files
 
-```
-Census_demographic_analysis.ipynb   # main notebook with outputs
-README.md
-```
+Census_demographic_analysis.ipynb has everything including outputs.
 
-The original dataset (T1_A25census-3.csv) is not included — university assessment data.
+Dataset not included, it's university assessment data.
 
----
+## Why it matters for healthcare AI
 
-## Why this matters for healthcare AI
+Clinical data looks exactly like this. Missing values, impossible entries, fields that contradict each other. Everything I did here is what you'd do before training any kind of clinical prediction model. Get the data right first or the model is useless.
 
-Clinical datasets are messy in exactly these ways — missing values, impossible entries, logical inconsistencies. This project is basically a dress rehearsal for what you'd do before training any clinical prediction model. The same imputation decisions (why median not mean for skewed data, why mode for categorical), the same validation logic, the same "does this make sense in the real world" checks — all of that transfers directly.
-
----
-
-*Part of my MSc AI for Healthcare portfolio — University of Hull, graduating September 2026.*
+University of Hull, MSc AI for Healthcare, graduating September 2026.
